@@ -8,7 +8,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-# ID của 1373258875549126687bạn (Thay bằng ID Discord của bạn)
+# ID của bạn (Thay bằng ID Discord của bạn)
 ADMIN_ID = 1373258875549126687
 
 # Danh sách ID những người được phép dùng bot
@@ -25,7 +25,7 @@ async def on_ready():
 @bot.command()
 async def add(ctx, member: discord.Member):
     if ctx.author.id != ADMIN_ID:
-        return await ctx.send("❌ Tuổi gì? cn đĩ ")
+        return await ctx.send("❌ Tuổi gì? cn đix ")
 if member.id not in whitelist:
         whitelist.append(member.id)
         await ctx.send(f"✅ Đã cấp quyền cho {member.mention} được dùng bot.")
@@ -57,13 +57,13 @@ async def nhay(ctx, member: discord.Member):
     if ctx.message.attachments:
         attachment = ctx.message.attachments[0]
         if attachment.filename.endswith('.txt'):
-            try:
-                content = await attachment.read()
-                decoded_content = content.decode('utf-8').splitlines()
-                quotes = [line.strip() for line in decoded_content if line.strip()]
-                await ctx.send(f"✅ Nhận kịch bản từ `{attachment.filename}`!")
-            except Exception as e:
-                await ctx.send(f"❌ Lỗi file: {e}")
+        try:
+         content = await attachment.read()
+        decoded_content = content.decode('utf-8').splitlines()
+        quotes = [line.strip() for line in decoded_content if line.strip()]
+        await ctx.send(f"✅ Nhận kịch bản từ `{attachment.filename}`!")
+    except Exception as e:
+        await ctx.send(f"❌ Lỗi file: {e}")
 
     await ctx.send(f"Bắt đầu nhây {member.mention}...")
 
