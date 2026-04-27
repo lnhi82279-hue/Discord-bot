@@ -71,7 +71,7 @@ async def nhay(ctx, member: discord.Member):
 
     while not stop_nhay:
         async with ctx.typing():
-            await asyncio.sleep(random.uniform(0.5, 1.5))
+            await await asyncio.sleep(random.randint(3, 5))
         
         raw_quote = random.choice(quotes)
         final_message = raw_quote.replace("{user}", member.mention)
