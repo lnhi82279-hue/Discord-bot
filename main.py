@@ -4,109 +4,86 @@ import asyncio
 import random
 import os
 
-# Cấu hình Intent để bot có quyền đọc tin nhắn
-intents = discord.Intents.default()
-intents.message_content = True
-intents.members = True
+# Self-bot setup
+bot = commands.Bot(command_prefix="!", self_bot=True)
 
-bot = commands.Bot(command_prefix="!", intents=intents)
+# Danh sách quyền (Mặc định chỉ có mày dùng được)
+# Self-bot sẽ tự nhận diện ID của mày khi online
+whitelist = []
+stop_nhay = False
 
-# ID của Nhi (Chủ bot)
-ADMIN_ID = 1373258875549126687
-
-# Danh sách những người được phép dùng lệnh
-whitelist = [ADMIN_ID]
-
-DEFAULT_QUOTES = ["Ê {user}, sủa lên xem nào? Sao câm nín thế?",
+DEFAULT_QUOTES = [
+    "Ê {user}, sủa lên xem nào? Sao câm nín thế?",
     "Gõ nhanh cái tay lên {user}, chậm chạp thế này định dưỡng già à?",
-    "Nghĩ kịch bản lâu thế {user}, hay là hết chữ rồi?",
     "Mẹ m s đó {user}, nhìn cái mặt là thấy không ưa rồi!",
     "Tầm này mà còn bơ à {user}, nhục thế ông cháu?",
     "Ngoi lên đây solo xem nào {user}, đừng có núp lùm nữa!",
-    "Cái loại như {user} thì chỉ có nước xách dép cho tao thôi nhé.",
     "Dậy mà rep đi {user}, nãy gáy to lắm mà giờ tắt đài rồi à?",
     "Nhìn {user} gõ phím mà tao tưởng rùa bò, chậm vcl!",
-    "Khóc đi {user}, khóc to lên cho tao xem nào!",
     "Tag cho cháy máy này {user}, tag cho nát cái điện thoại này!",
-    "Ê {user}, trình độ chỉ đến thế thôi hả? Hết nấc rồi à?",
     "Sủa tiếp đi {user}, tao đang nghe đây, sủa hay tao cho cục xương!",
-    "Cái loại {user} đúng là chúa tể mõm, vua lỳ đòn nhưng gõ kém!",
     "Cay không {user}? Cay thì làm gì đi chứ!",
-    "Đừng có giả vờ ngoại tuyến nữa {user}, hèn thế?"]
-
-stop_nhay = False
+    "Đừng có giả vờ ngoại tuyến nữa {user}, hèn thế?"
+]
 
 @bot.event
 async def on_ready():
-    print(f'Bot {bot.user.name} đã sẵn sàng hoạt động!')
+    if bot.user.id not in whitelist:
+        whitelist.append(bot.user.id)
+    print(f"Self-bot {bot.user} 123")
 
 @bot.command()
 async def add(ctx, member: discord.Member):
-    if ctx.author.id != ADMIN_ID:
-        return await ctx.send("❌ Tuổi gì cấp quyền?")
-    if member.id not in whitelist:
-        whitelist.append(member.id)
-        await ctx.send(f"✅ Đã cấp quyền cho {member.mention}")
-    else:
-        await ctx.send("Người này có quyền rồi má!")
+    if ctx.author.id == bot.user.id: # Chỉ mày mới được add người khác
+        if member.id not in whitelist:
+            whitelist.append(member.id)
+            await ctx.send(f"Đã cấp quyền nhây cho {member.name}")
+        else:
+            await ctx.send("Đứa này có quyền sẵn rồi Nhi ơi!")
 
 @bot.command()
 async def remove(ctx, member: discord.Member):
-    if ctx.author.id != ADMIN_ID:
-        return await ctx.send("❌ Không có quyền tước!")
-    if member.id in whitelist:
-        if member.id == ADMIN_ID:
-            return await ctx.send("Định tự tước quyền mình luôn hả?")
-        whitelist.remove(member.id)
-        await ctx.send(f"🚫 Đã tước quyền của {member.mention}")
+    if ctx.author.id == bot.user.id:
+        if member.id in whitelist and member.id != bot.user.id:
+            whitelist.remove(member.id)
+            await ctx.send(f"Đã thu hồi quyền của {member.name}")
 
 @bot.command()
 async def nhay(ctx, member: discord.Member):
     global stop_nhay
     if ctx.author.id not in whitelist:
-        return await ctx.send("⚠️ Bạn không có quyền dùng lệnh này!")
-
-    # QUAN TRỌNG: Reset lại stop_nhay để có thể chạy nhiều lần
-    stop_nhay = False 
+        return # Không có quyền thì bot im re luôn
     
-    quotes = DEFAULT_QUOTES
+    stop_nhay = False
+    try:
+        await ctx.message.delete()
+    except:
+        pass
     
-    # Kiểm tra nếu Nhi gửi kèm file .txt để lấy câu chửi riêng
+    quotes = DEFAULT_QUOTES.copy()
     if ctx.message.attachments:
-        attachment = ctx.message.attachments[0]
-        if attachment.filename.endswith('.txt'):
+        at = ctx.message.attachments[0]
+        if at.filename.endswith(".txt"):
+            content = await at.read()
             try:
-                content = await attachment.read()
-                decoded_content = content.decode('utf-8')
-                quotes = [line.strip() for line in decoded_content.split('\n') if line.strip()]
-                await ctx.send(f"✅ Đã nhận kịch bản nhây từ file!")
-            except Exception as e:
-                await ctx.send(f"❌ Lỗi đọc file rồii!")
-
-    await ctx.send(f"🚀 Bắt đầu nhây {member.mention}!")
+                decoded = content.decode("utf-8")
+            except:
+                decoded = content.decode("latin-1")
+            quotes = [line.strip() for line in decoded.split('\n') if line.strip()]
 
     while not stop_nhay:
+        msg = random.choice(quotes).replace("{user}", member.mention)
         async with ctx.typing():
-            await asyncio.sleep(random.randint(3, 5))
-        
-        raw_quote = random.choice(quotes)
-        final_message = raw_quote.replace("{user}", member.mention)
-        
-        await ctx.send(final_message)
-        # Thời gian chờ giữa các lần nhây (từ 1 đến 3 giây)
-        await asyncio.sleep(random.randint(3, 5))
+            await asyncio.sleep(random.uniform(1.2, 1.8))
+        await ctx.send(msg)
+        await asyncio.sleep(random.uniform(1.5, 2.5))
 
 @bot.command()
 async def stop(ctx):
-    global stop_nhay
-    if ctx.author.id not in whitelist:
-        return
-    stop_nhay = True
-    await ctx.send("🛑 Đã dừng nhây!")
+    if ctx.author.id in whitelist:
+        global stop_nhay
+        stop_nhay = True
+        await ctx.send(".")
 
-# Lấy Token từ biến môi trường trên Render (Không dán mã thật vào đây)
 token = os.getenv("DISCORD_TOKEN")
-if token:
-    bot.run(token)
-else:
-    print("Lỗi: Không tìm thấy DISCORD_TOKEN trong Environment!")
+bot.run(token)
