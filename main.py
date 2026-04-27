@@ -81,20 +81,20 @@ async def nhay(ctx, member: discord.Member):
                 quotes = [line.strip() for line in decoded_content.split('\n') if line.strip()]
                 await ctx.send(f"✅ Đã nhận kịch bản nhây từ file!")
             except Exception as e:
-                await ctx.send(f"❌ Lỗi đọc file rồi Nhi ơi!")
+                await ctx.send(f"❌ Lỗi đọc file rồii!")
 
     await ctx.send(f"🚀 Bắt đầu nhây {member.mention}!")
 
     while not stop_nhay:
         async with ctx.typing():
-            await await asyncio.sleep(random.randint(3, 5))
+            await asyncio.sleep(random.randint(3, 5))
         
         raw_quote = random.choice(quotes)
         final_message = raw_quote.replace("{user}", member.mention)
         
         await ctx.send(final_message)
         # Thời gian chờ giữa các lần nhây (từ 1 đến 3 giây)
-        await asyncio.sleep(random.randint(1, 3))
+        await asyncio.sleep(random.randint(3, 5))
 
 @bot.command()
 async def stop(ctx):
