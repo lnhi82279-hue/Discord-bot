@@ -17,7 +17,7 @@ ADMIN_ID = 1373258875549126687
 # Danh sách những người được phép dùng lệnh
 whitelist = [ADMIN_ID]
 
-DEFAULT_QUOTES = [“mẹ m s đó {user}”, “cn đĩ lồn sủa lẹ {user}”, “cn chó mẹ m {user}”, “cn đĩ cặc {user}”, “địt mẹ m {user}”, “con lồn ei {user}”, “thấy bố chat nhah cái sợ à 😹😹 {user}”, “địt mẹ m kkkk {user}”, “thk chó súc vật {user}”, “thấy bố kẹp chữ bot là tưởng bố bot à cn đĩ {user}”, “đĩ mẹ m cn đĩ sv {user}”, “sủa lẹ đê m ei😹 {user}”, “m s đó em ei {user}”, “m nhah k cn đĩ ngu {user}”, “m thik soạn k cn chó lồn {user}”, “tới mốt cn chó lồn {user}”, “cái cn gái mẹ m {user}”, “bố chat dòg nào dòg nấy st vcl {user}”, “địt mẹ m nhah k cn chó {user}”, “lẹ ei m {user}”, “cn đĩ mẹ m cn chó ei {user}”, “cn lồn lẹ m {user}”]
+DEFAULT_QUOTES = [“mẹ m s đó {user}”, “cn đĩ lồn sủa lẹ {user}”, “cn chó mẹ m {user}”, “cn đĩ cặc {user}”]
 stop_nhay = False
 
 @bot.event
