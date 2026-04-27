@@ -59,5 +59,6 @@ async def stop(ctx):
     stop_nhay = True
     await ctx.send("Đã dừng nhây!")
 
-token = os.getenv("DISCORD_TOKEN")
+token = os.getenv("token = os.getenv("DISCORD_TOKEN")
 bot.run(token)
+.
