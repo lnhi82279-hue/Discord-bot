@@ -9,7 +9,7 @@ intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # ID của 1373258875549126687bạn (Thay bằng ID Discord của bạn)
-ADMIN_ID =  1373258875549126687
+ADMIN_ID = 1373258875549126687
 
 # Danh sách ID những người được phép dùng bot
 whitelist = [ADMIN_ID]
