@@ -17,7 +17,23 @@ ADMIN_ID = 1373258875549126687
 # Danh sách những người được phép dùng lệnh
 whitelist = [ADMIN_ID]
 
-DEFAULT_QUOTES = ["mẹ m s đó {user}, “cn đĩ lồn sủa lẹ {user}”, “cn chó mẹ m {user}”, “cn đĩ cặc {user}”]
+DEFAULT_QUOTES = ["Ê {user}, sủa lên xem nào? Sao câm nín thế?",
+    "Gõ nhanh cái tay lên {user}, chậm chạp thế này định dưỡng già à?",
+    "Nghĩ kịch bản lâu thế {user}, hay là hết chữ rồi?",
+    "Mẹ m s đó {user}, nhìn cái mặt là thấy không ưa rồi!",
+    "Tầm này mà còn bơ à {user}, nhục thế ông cháu?",
+    "Ngoi lên đây solo xem nào {user}, đừng có núp lùm nữa!",
+    "Cái loại như {user} thì chỉ có nước xách dép cho tao thôi nhé.",
+    "Dậy mà rep đi {user}, nãy gáy to lắm mà giờ tắt đài rồi à?",
+    "Nhìn {user} gõ phím mà tao tưởng rùa bò, chậm vcl!",
+    "Khóc đi {user}, khóc to lên cho tao xem nào!",
+    "Tag cho cháy máy này {user}, tag cho nát cái điện thoại này!",
+    "Ê {user}, trình độ chỉ đến thế thôi hả? Hết nấc rồi à?",
+    "Sủa tiếp đi {user}, tao đang nghe đây, sủa hay tao cho cục xương!",
+    "Cái loại {user} đúng là chúa tể mõm, vua lỳ đòn nhưng gõ kém!",
+    "Cay không {user}? Cay thì làm gì đi chứ!",
+    "Đừng có giả vờ ngoại tuyến nữa {user}, hèn thế?"]
+
 stop_nhay = False
 
 @bot.event
